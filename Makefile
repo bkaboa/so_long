@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: czang <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/06/16 14:12:11 by czang             #+#    #+#              #
-#    Updated: 2022/06/18 15:38:05 by czang            ###   ########lyon.fr    #
+#    Created: 2022/06/19 20:00:16 by czang             #+#    #+#              #
+#    Updated: 2022/06/19 20:20:16 by czang            ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,20 +29,25 @@ all:			$(NAME)
 $(NAME):		$(OBJS)
 	@$(CC) $(MLXFLAGS) $(CFLAGS) $^ -o $@
 
-re:				fclean all
-
-$(OPATH)/%.o:	%.c $(INC) config/srcs.mk Makefile
+$(OPATH)/%.o:	%.c $(INC) config/srcs.mk Makefile make_mlx
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 memoire:		CFLAGS += $(MEMFLAGS)
 memoire:		re
 
-clean:
+re:				fclean all
+
+make_mlx:		
+	@make -C mlx
+clean_mlx:		
+	@make clean -C mlx
+
+clean:			clean_mlx
 	@$(RM) $(OBJS)
 	@$(RMF) $(OPATH)
 
 fclean:			clean
 	@$(RM) $(NAME)
 
-PHONY: re clean fclean all
+.PHONY: re clean fclean all

@@ -6,13 +6,13 @@
 /*   By: czang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 13:16:53 by czang             #+#    #+#             */
-/*   Updated: 2022/06/18 17:03:49 by czang            ###   ########lyon.fr   */
+/*   Updated: 2022/06/19 19:54:57 by czang            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/so_long.h"
 
-static bool	get_line(u_int16_t *n_line, t_string file)
+static bool	get_line(int16_t *n_line, t_string file)
 {
 	int16_t		read_out;
 	int32_t		fd;
@@ -69,7 +69,7 @@ static bool	ber_file(t_string str)
 bool	parsing_all(t_all *all)
 {
 	int				read_r;
-	u_int16_t		n_line;
+	int16_t			n_line;
 
 	read_r = 1;
 	if (all->argc != 1)
@@ -78,8 +78,8 @@ bool	parsing_all(t_all *all)
 		return (print_error(all->argv[1], NAME_ERROR));
 	if (get_line(&n_line, all->argv[1]) == false)
 		return (false);
-	if (n_line == 0 || n_line == 1 || n_line == 2)
-		return (NULL, MAP_TO_SMALL);
+	if (n_line <= 2)
+		return (print_error(NULL, MAP_TO_SMALL));
 	all->map1 = (char **) malloc(sizeof(char *) * (n_line + 1));
 	if (!all->map1)
 		return (print_error(NULL, MALLOC_ERROR));
